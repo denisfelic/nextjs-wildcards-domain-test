@@ -85,7 +85,7 @@ Home.getInitialProps = async (ctx) => {
   // TODO: Refactor to make get this from database
   if (fullUrl.split('.')[0].length < 3) {
     ctx.res.writeHead(302, { // or 301
-      Location: "http://denis-dev/",
+      Location: "https://www.denis-dev/",
 
     });
     res.end();
