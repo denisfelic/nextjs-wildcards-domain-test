@@ -1,6 +1,13 @@
-import type { NextPage } from 'next'
 
-const Home: NextPage = ({ fullUrl }: any) => {
+
+async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: 'blocking'
+  }
+}
+
+const Home = ({ fullUrl }) => {
 
   const data = [
     {
@@ -22,13 +29,23 @@ const Home: NextPage = ({ fullUrl }: any) => {
   ];
 
 
-  let subdomain: string = fullUrl.split('.')[0];
+  let subdomain = fullUrl.split('.')[0];
 
   let club = data.find(e => e.hostname === subdomain)
   console.log(club)
 
 
 
+  return (
+    <div >
+      {club ? <DomainPage club={club} /> : <Institutional />}
+    </div>
+  )
+}
+function Institutional() {
+  return <h1>Institutional Page!</h1>
+}
+function DomainPage({ club }) {
 
   return (
     <div >
@@ -64,6 +81,16 @@ Home.getInitialProps = async (ctx) => {
     // Client side rendering
     fullUrl = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '')
   }
+
+  // TODO: Refactor to make get this from database
+  if (fullUrl.split('.')[0].length < 3) {
+    ctx.res.writeHead(302, { // or 301
+      Location: "http://localhost:3000/",
+
+    });
+    res.end();
+  }
+
   return { fullUrl: fullUrl }
 }
 
