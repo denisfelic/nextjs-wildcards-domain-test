@@ -16,7 +16,7 @@ Catalog.getInitialProps = async (ctx) => {
     console.log(process.env.DOMAIN_PROD)
     if (fullUrl.split('.')[0].length < 3 || fullUrl == 'localhost') {
       res.writeHead(302, { // or 301
-        Location: process.env.DEV == 'true' ? process.env.DOMAIN_DEV : process.env.DOMAIN_PROD,
+        Location: (process.env.DEV == 'true' || process.env.DEV == true) ? process.env.DOMAIN_DEV : process.env.DOMAIN_PROD,
 
       });
       res.end();
