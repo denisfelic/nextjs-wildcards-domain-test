@@ -77,19 +77,20 @@ Home.getInitialProps = async (ctx) => {
   if (req) {
     // Server side rendering
     fullUrl = req.headers.host?.split(':')[0];
+    // TODO: Refactor to make get this from database
+    if (fullUrl.split('.')[0].length < 3) {
+      ctx.res.writeHead(302, { // or 301
+        Location: "https://www.denis-dev.com",
+
+      });
+      res.end();
+    }
   } else {
     // Client side rendering
     fullUrl = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '')
   }
 
-  // TODO: Refactor to make get this from database
-  if (fullUrl.split('.')[0].length < 3) {
-    ctx.res.writeHead(302, { // or 301
-      Location: "https://www.denis-dev.com",
 
-    });
-    res.end();
-  }
 
   return { fullUrl: fullUrl }
 }
